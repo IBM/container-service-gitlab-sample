@@ -7,36 +7,39 @@ or group of containers.
 
 ## Flow
 
-	     +-----------+
-	     |           |
-	     |    User   |                  +-+
-	     |           |                  |2|
-	     +-----+-----+                  +-+
-	+-+        |
-	|1|        |                  +-------------+
-	+-+        |                  |             |
-		   |                +->  PostgreSQL |
-	    +------v-------+        | |             |
-	    |              |        | +-------------+
-	    |    Gitlab    +--------+
-	    |              |        |
-	    +--------------+        |
-				    |   +-----------+
-				    |   |           |
-				    +--->   Redis   |
-					|           |
-					+-----------+
+             +-----------+
+             |           |
+             |    User   |                  +-+
+             |           |                  |2|
+             +-----+-----+                  +-+
+        +-+        |
+        |1|        |                  +-------------+
+        +-+        |                  |             |
+                   |                +->  PostgreSQL |
+            +------v-------+        | |             |
+            |              |        | +-------------+
+            |    Gitlab    +--------+
+            |              |        |
+            +--------------+        |
+                                    |   +-----------+
+                                    |   |           |
+                                    +--->   Redis   |
+                                        |           |
+                                        +-----------+
 
-					     +-+
-					     |3|
-					     +-+
+                                             +-+
+                                             |3|
+                                             +-+
 
 
-1. User interacts with Gitlab via the web interface or by pushing code to a git repo.
+1. User interacts with Gitlab via the web interface or by pushing code to a git
+   repo. This container runs the main Ruby on Rails application behind NGINX and
+   gitlab-workhorse which is a reverse proxy for large HTTP requests like file
+   downloads and git push/pull.
 
 2. Gitlab keeps track of projects, merge requests, groups, etc. in PostgreSQL.
 
-3. Background tasks are processed by Resque backed by Redis.
+3. Redis acts as a job queue for background tasks.
 
 
 ## Included Components
