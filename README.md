@@ -1,4 +1,4 @@
-# container-service-gitlab-sample
+# Container Service Gitlab Sample
 
 ## Overview
 This project shows how a common multi-component application can be deployed
