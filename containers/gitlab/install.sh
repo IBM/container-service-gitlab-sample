@@ -33,11 +33,12 @@ ruby
 ruby-bigdecimal
 postgresql-client
 nodejs
-redis
+openssh
 curl-dev
 icu-libs
 git
 sudo
+redis
 nginx"
 
 
