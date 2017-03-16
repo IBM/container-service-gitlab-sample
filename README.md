@@ -44,6 +44,9 @@ or group of containers.
 
 ## Included Components
 - Bluemix container service
+- GitLab
+- Redis
+- PostgreSQL
 
 
 
@@ -53,12 +56,12 @@ Learn how to run a multi-tier application on Bluemix container service.
 
 Steps
 
-1. [Instal CLI Tools](#1-install-cli-tools)
-2. [Build containerss](#2-build-containers)
+1. [Instal Bluemix and Container Service CLI Tools](#1-install-cli-tools)
+2. [Build PostgreSQL, Redis and Gitlab containers](#2-build-containers)
 3. [Deploy containers](#3-deploy-containers)
 4. [Using Gitlab](#4-using-gitlab)
 
-# 1. Install CLI tools
+# 1. Install Bluemix and Container Service CLI tools
 Install CloudFoundry CLI for your OS from [GitHub] (https://github.com/cloudfoundry/cli/releases). Once the CloudFoundry CLI
 has been installed you can install the Bluemix Container Service Cloud Foundry plug-in.
 
@@ -112,7 +115,7 @@ This should return a list of images from the default Bluemix registry.
         registry.ng.bluemix.net/ibmliberty                    webProfile7         6b2b8341fa32        2 months ago        276 MB
 
 
-# 2. Build containers
+# 2. Build PostgreSQL, Redis and Gitlab containers
 
 Build the PostgreSQL container.
 
