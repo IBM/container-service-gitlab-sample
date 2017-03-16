@@ -36,11 +36,11 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 
 
 1. User interacts with Gitlab via the web interface or by pushing code to a git
-   repo. This container runs the main Ruby on Rails application behind NGINX and
+   repo. Gitlab container runs the main Ruby on Rails application behind NGINX and
    gitlab-workhorse which is a reverse proxy for large HTTP requests like file
-   downloads and git push/pull.
+   downloads and git push/pull. This container intercepts user requests
 
-2. Gitlab keeps track of projects, merge requests, groups, etc. in PostgreSQL.
+3. Gitlab keeps track of projects, merge requests, groups, etc. in PostgreSQL.
 
 3. Redis acts as a job queue for background tasks.
 
