@@ -76,13 +76,14 @@ Once the plugin is installed you can log into the Bluemix Container Service.
 First, you must log into Bluemix through the CloudFoundry CLI.
 
 ```bash
-cf login
+cf login -a https://api.ng.bluemix.net
 ```
 
-If this is the first time using the container service you must set a namespace which identifies your private
-Bluemix images registry. It can be between 4 and 30 characters.
+If this is the first time using the container service you must initialize the plugin and
+set a namespace which identifies your private Bluemix images registry. It can be between 4 and 30 characters.
 
 ```bash
+cf ic init
 cf ic namespace set <namespace>
 ```
 
@@ -151,6 +152,14 @@ cf ic volume create gitlab
 ```
 
 Containers can now be deployed with the provided docker-compose file.
+In order to use docker-compose you MUST override the local Docker environment
+as described in "Option 2" when logging into the Bluemix container service.
+
+If you do not already have docker-compose installed:
+
+```bash
+curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose ; chmod +x /usr/local/bin/docker-compose
+```
 
 ```bash
 (in the toplevel repo directory)
@@ -167,6 +176,7 @@ cf ic run -d --volume gitlab:/home/git/data --link pgsql:postgresql --link redis
 
 Now a public IP can be bound to the Gitlab container.
 ```bash
+cf ic ip request
 cf ic ip list
 cf ic ip bind <unbound IP from above> <gitlab container ID>
 ```
@@ -217,6 +227,7 @@ You can now see it in the Gitlab UI.
 # Troubleshooting
 If a container doesn't start examine the logs.
 ```bash
+cf ic ps
 cf ic logs -t <container ID>
 ```
 
