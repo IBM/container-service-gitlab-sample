@@ -25,6 +25,7 @@ py2-docutils
 go
 ruby-dev
 linux-headers
+shadow
 pkgconf"
 
 
@@ -45,6 +46,8 @@ nginx"
 apk add --update --no-cache --virtual build-deps $BUILD_DEPENDS
   
 apk add --no-cache $PACKAGE_LIST
+
+usermod -p "*" git
 
 # Required by bundler
 gem install io-console bundler --no-ri --no-rdoc
@@ -92,7 +95,8 @@ chmod -R u+rwX tmp/
 chmod -R u+rwX tmp/pids/ tmp/sockets/
 
 # Create the public/uploads/ directory
-sudo -u git -H mkdir public/uploads/
+sudo -u git -H mkdir -p public/uploads/tmp
+chown -R git /home/git/gitlab/public/uploads
 
 # Make sure only the GitLab user has access to the public/uploads/ directory
 chmod 0700 public/uploads
@@ -103,8 +107,9 @@ chmod -R u+rwX builds/ shared/artifacts/
 # Change the permissions of the directory where GitLab Pages are stored
 chmod -R ug+rwX shared/pages/
 
+
 mkdir ../repositories
-chown git:git ../repositories
+chown -R git:git ../repositories
 
 # Configure Git global settings for git user
 # 'autocrlf' is needed for the web editor

@@ -5,6 +5,7 @@ DB_HOST=${DB_HOST:-postgresql}
 DB_PORT=${DB_PORT:-5432}
 REDIS_HOST=${REDIS_HOST:-redis}
 REDIS_PORT_NUM=${REDIS_PORT_NUM:-6379}
+GITLAB_HOST=${GITLAB_HOST:-gitlab-server}
 
 create_database_config() {
 cat <<EOF > /home/git/gitlab/config/database.yml
@@ -33,21 +34,41 @@ EOF
 
 
 
+start_sshd() {
+if [ ! -f "/etc/ssh/ssh_host_rsa_key" ]; then
+	ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+fi
+if [ ! -f "/etc/ssh/ssh_host_dsa_key" ]; then
+	ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
+fi
+
+if [ ! -d "/var/run/sshd" ]; then
+  mkdir -p /var/run/sshd
+fi
+
+/usr/sbin/sshd -E /var/log/sshd.log &
+}
+
 update_nginx_conf() {
 cp /home/git/gitlab/lib/support/nginx/gitlab /etc/nginx/conf.d/default.conf
 sed -ie 's/server unix:.*\.socket/server localhost:8181/' /etc/nginx/conf.d/default.conf
 sed -ie 's/events {/pid \/var\/run\/nginx.pid;\n\nevents {/' /etc/nginx/nginx.conf
+sed -ie "s/server_name YOUR_SERVER_FQDN/server_name ${GITLAB_HOST}/" /etc/nginx/conf.d/default.conf
 }
 
 
 update_gitlab_conf() {
 cd /home/git/gitlab/config
 sed -ie 's!default: /home/git/repositories!default: /home/git/data/repositories!g' gitlab.yml
+sed -ie "s/host: localhost/host: ${GITLAB_HOST}/" gitlab.yml
+sed -ie "\$s/\$/${GITLAB_HOST}/" /etc/hosts
 
 chmod 775 /home/git/data
 adduser git root
 sudo -u git mkdir /home/git/data/repositories
-sudo -u git chmod 755 /home/git/data/repositories
+sudo -u git chmod -R ug+rwX,o-rwx /home/git/data/repositories/
+sudo -u git chmod -R ug-s /home/git/data/repositories/
+
 delgroup git root
 chmod 755 /home/git/data
 }
@@ -81,7 +102,8 @@ nginx -g "daemon off;"
 
 create_database_config
 create_redis_config
+update_gitlab_conf
 setup_database
 update_nginx_conf
-update_gitlab_conf
+start_sshd
 start_gitlab

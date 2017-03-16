@@ -154,7 +154,7 @@ Containers can now be deployed with the provided docker-compose file.
 
 ```bash
 (in the toplevel repo directory)
-docker-compose up -d
+NAMESPACE=<namespace> docker-compose up -d
 ```
 
 Or manually.
@@ -176,8 +176,49 @@ Verify everything is running by visiting <bound IP> in a browser which should re
 
 
 # 4. Using Gitlab
+Now that Gitlab is running you can register as a new user and create a project.
+
+![Registration page](images/register.png)
+
+
+After logging in as your newly-created user you can create a new project.
+
+![Create project](images/new_project.png)
+
+Once a project has been created you'll be asked to add an SSH key for your user.
+
+To verify that your key is working correctly run:
+
+```bash
+ssh -T git@<IP>
+```
+
+Which should result in:
+
+```bash
+Welcome to GitLab, <user>!
+```
+
+Now you can clone your project.
+```bash
+git clone <project URL>
+```
+
+Add a file and commit:
+```bash
+echo "Gitlab project" > README.md
+git add README.md
+git commit -a -m "Initial commit"
+```
+
+You can now see it in the Gitlab UI.
+![Repo](images/first_commit.png)
 
 # Troubleshooting
+If a container doesn't start examine the logs.
+```bash
+cf ic logs -t <container ID>
+```
 
 # License
 [Apache 2.0](LICENSE.txt)
