@@ -19,7 +19,7 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 - Redis
 - PostgreSQL
 
-Steps
+## Steps
 
 1. [Instal Bluemix and Container Service CLI Tools](#1-install-cli-tools)
 2. [Build PostgreSQL, Redis and Gitlab containers](#2-build-containers)
