@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/IBM/container-service-gitlab-sample.svg?branch=master)](https://travis-ci.org/IBM/container-service-gitlab-sample)
 
-# Container Service Gitlab Sample
+# GitLab deployment on Bluemix Container Service
 
 ## Overview
 This project shows how a common multi-component application can be deployed
@@ -11,8 +11,6 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 
 
 ![Flow](images/gitlab_container.png)
-
-# Gitlab on Bluemix Container service
 
 ## Included Components
 - Bluemix container service
