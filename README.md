@@ -8,46 +8,24 @@ or group of containers.
 Gitlab represents a typical multi-tier app and each component will have their own container(s). The microservice containers will be for the web tier, the state/job database with Redis and PostgreSQL as the database.
 
 
-## Flow
-
-             +-----------+
-             |           |
-             |    User   |                  +-+
-             |           |                  |2|
-             +-----+-----+                  +-+
-        +-+        |
-        |1|        |                  +-------------+
-        +-+        |                  |             |
-                   |                +->  PostgreSQL |
-            +------v-------+        | |             |
-            |              |        | +-------------+
-            |    Gitlab    +--------+
-            |              |        |
-            +--------------+        |
-                                    |   +-----------+
-                                    |   |           |
-                                    +--->   Redis   |
-                                        |           |
-                                        +-----------+
-
-                                             +-+
-                                             |3|
-                                             +-+
+![Flow](images/gitlab_container.png)
 
 
-1. User interacts with Gitlab via the web interface or by pushing code to a git
-   repo. Gitlab container runs the main Ruby on Rails application behind NGINX and
-   gitlab-workhorse which is a reverse proxy for large HTTP requests like file
-   downloads and git push/pull. This container intercepts user requests
+1. User interacts with Gitlab via the web interface or by pushing code to a git repo. Gitlab container runs the main Ruby on Rails application behind NGINX and gitlab-workhorse which is a reverse proxy for large HTTP requests like file downloads and git push/pull. When serving repositories over HTTP/HTTPS GitLab utilizes the GitLab API to resolve authorization and access as well as serving git objects.
 
-3. Gitlab keeps track of projects, merge requests, groups, etc. in PostgreSQL.
+2. Gitlab Rails application puts the incoming jobs, job information, meta data on Redis job queue which acts as non-persistent database 
 
-3. Redis acts as a job queue for background tasks.
+3. Repositories are created in local file system 
+
+4. User created users,roles, merge requests, groups, etc. are stored in PostgreSQL.
+
+5. User accesses repository going through git shell.
 
 
 ## Included Components
 - Bluemix container service
 - GitLab
+- NGINX
 - Redis
 - PostgreSQL
 
