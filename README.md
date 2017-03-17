@@ -12,8 +12,6 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 
 # Gitlab on Bluemix Container service
 
-Learn how to run a multi-tier application on Bluemix container service.
-
 ## Included Components
 - Bluemix container service
 - GitLab
