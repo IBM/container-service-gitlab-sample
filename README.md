@@ -10,17 +10,9 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 
 ![Flow](images/gitlab_container.png)
 
+# Gitlab on Bluemix Container service
 
-1. User interacts with Gitlab via the web interface or by pushing code to a git repo. Gitlab container runs the main Ruby on Rails application behind NGINX and gitlab-workhorse which is a reverse proxy for large HTTP requests like file downloads and git push/pull. When serving repositories over HTTP/HTTPS GitLab utilizes the GitLab API to resolve authorization and access as well as serving git objects.
-
-2. Gitlab Rails application puts the incoming jobs, job information, meta data on Redis job queue which acts as non-persistent database 
-
-3. Repositories are created in local file system 
-
-4. User created users,roles, merge requests, groups, etc. are stored in PostgreSQL.
-
-5. User accesses repository going through git shell.
-
+Learn how to run a multi-tier application on Bluemix container service.
 
 ## Included Components
 - Bluemix container service
@@ -28,12 +20,6 @@ Gitlab represents a typical multi-tier app and each component will have their ow
 - NGINX
 - Redis
 - PostgreSQL
-
-
-
-# Gitlab on Bluemix Container service
-Learn how to run a multi-tier application on Bluemix container service.
-
 
 Steps
 
