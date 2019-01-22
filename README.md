@@ -5,7 +5,7 @@
 ## Overview
 This project shows how a common multi-component application can be deployed
 on the Bluemix container service. Each component runs in a separate container
-or group of containers. 
+or group of containers.
 
 Gitlab represents a typical multi-tier app and each component will have their own container(s). The microservice containers will be for the web tier, the state/job database with Redis and PostgreSQL as the database.
 
